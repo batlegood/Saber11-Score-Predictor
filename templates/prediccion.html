@@ -1,0 +1,597 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="display-5 fw-bold">
+            Score Prediction
+        </h1>
+
+        <p class="lead text-muted">
+            Complete the information below and generate a predicted Saber 11 score.
+        </p>
+
+    </div>
+<div id="mensajeError"
+     class="alert alert-danger d-none shadow">
+
+    <strong>Error:</strong>
+    Please complete all required fields before generating a prediction.
+
+</div>
+    <form method="POST"
+      id="formPrediccion"
+      novalidate>
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-primary text-white">
+                Student Information
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Gender
+                        </label>
+
+                        <select class="form-select" name="ESTU_GENERO" required>
+                            <option value="">Select</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Department
+                        </label>
+
+                        <select class="form-select"
+        id="departamento"
+        name="ESTU_DEPTO_RESIDE"
+        required>
+
+                            <option value="">Select Department</option>
+
+                            {% for item in catalogos.departamentos %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Municipality
+                        </label>
+
+                        <select class="form-select"
+        id="municipio"
+        name="ESTU_MCPIO_RESIDE"
+        required>
+
+    <option value="">
+        Select Municipality
+    </option>
+
+</select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-success text-white">
+                Family Information
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Socioeconomic Level
+                        </label>
+
+                        <select class="form-select" name="FAMI_ESTRATOVIVIENDA" required>
+                            <option value="">Select</option>
+                            <option value="Estrato 1">1</option>
+                            <option value="Estrato 2">2</option>
+                            <option value="Estrato 3">3</option>
+                            <option value="Estrato 4">4</option>
+                            <option value="Estrato 5">5</option>
+                            <option value="Estrato 6">6</option>
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            People At Home
+                        </label>
+
+                        <input
+                            type="number"
+                            class="form-control"
+                            name="FAMI_PERSONASHOGAR"
+                            min="1"
+                            max="20"
+                            required>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Internet Access
+                        </label>
+
+                        <select class="form-select"
+                                name="FAMI_TIENEINTERNET"
+                                required>
+
+                            <option value="">Select</option>
+                            <option value="Si">Yes</option>
+                            <option value="No">No</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Computer Access
+                        </label>
+
+                        <select class="form-select"
+                                name="FAMI_TIENECOMPUTADOR"
+                                required>
+
+                            <option value="">Select</option>
+                            <option value="Si">Yes</option>
+                            <option value="No">No</option>
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            Vehicle Ownership
+                        </label>
+
+                        <select class="form-select"
+                                name="FAMI_TIENEAUTOMOVIL"
+                                required>
+
+                            <option value="">Select</option>
+                            <option value="Si">Yes</option>
+                            <option value="No">No</option>
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-warning">
+                Parent Education
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Mother Education
+                        </label>
+
+                        <select class="form-select"
+                                name="FAMI_EDUCACIONMADRE"
+                                required>
+
+                            <option value="">Select</option>
+
+                            {% for item in catalogos.educacion_madre %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Father Education
+                        </label>
+
+                        <select class="form-select"
+                                name="FAMI_EDUCACIONPADRE"
+                                required>
+
+                            <option value="">Select</option>
+
+                            {% for item in catalogos.educacion_padre %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card shadow mb-4">
+
+            <div class="card-header bg-info text-white">
+                School Information
+            </div>
+
+            <div class="card-body">
+
+                <div class="row">
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            School Nature
+                        </label>
+
+                        <select class="form-select"
+                                name="COLE_NATURALEZA"
+                                required>
+
+                            <option value="">Select</option>
+
+                            {% for item in catalogos.naturaleza %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            School Character
+                        </label>
+
+                        <select class="form-select"
+                                name="COLE_CARACTER"
+                                required>
+
+                            <option value="">Select</option>
+
+                            {% for item in catalogos.caracter %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-4 mb-3">
+
+                        <label class="form-label">
+                            School Area
+                        </label>
+
+                        <select class="form-select"
+                                name="COLE_AREA_UBICACION"
+                                required>
+
+                            <option value="">Select</option>
+
+                            {% for item in catalogos.area %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Bilingual School
+                        </label>
+
+                        <select class="form-select"
+                                name="COLE_BILINGUE"
+                                required>
+
+                            <option value="">Select</option>
+
+                            {% for item in catalogos.bilingue %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+
+                        <label class="form-label">
+                            Academic Calendar
+                        </label>
+
+                        <select class="form-select"
+                                name="COLE_CALENDARIO"
+                                required>
+
+                            <option value="">Select</option>
+
+                            {% for item in catalogos.calendario %}
+                            <option value="{{ item }}">{{ item }}</option>
+                            {% endfor %}
+
+                        </select>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="text-center">
+
+            <button
+                type="submit"
+                class="btn btn-primary btn-lg px-5">
+
+                Predict Score
+
+            </button>
+
+        </div>
+
+    </form>
+
+    {% if resultado %}
+
+    <div class="mt-5">
+
+        <h2 class="text-center mb-4">
+            Prediction Results
+        </h2>
+
+        <div class="row g-4">
+
+            <div class="col-md-3">
+
+                <div class="card shadow text-center">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            Predicted Score
+                        </h6>
+
+                        <h1 class="text-primary">
+                            {{ resultado.score }}
+                        </h1>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card shadow text-center">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            Performance Level
+                        </h6>
+
+                        <h3>
+                            {{ resultado.level }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card shadow text-center">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            National Average
+                        </h6>
+
+                        <h3>
+                            258
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-3">
+
+                <div class="card shadow text-center">
+
+                    <div class="card-body">
+
+                        <h6 class="text-muted">
+                            Difference
+                        </h6>
+
+                        <h3 class="text-success">
+                            {{ resultado.score - 258 }}
+                        </h3>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="card shadow mt-4">
+
+            <div class="card-body">
+
+                <h3>
+                    Recommendations
+                </h3>
+
+                <ul>
+                    <li>Continue practicing with mock exams.</li>
+                    <li>Strengthen reading comprehension skills.</li>
+                    <li>Review weak academic areas regularly.</li>
+                    <li>Maintain a consistent study routine.</li>
+                </ul>
+
+            </div>
+
+        </div>
+
+        
+
+    {% endif %}
+
+</div>
+<script>
+
+const municipiosPorDepartamento =
+{{ catalogos.municipios_por_departamento | tojson }};
+
+const departamento =
+document.getElementById("departamento");
+
+const municipio =
+document.getElementById("municipio");
+
+departamento.addEventListener("change", function () {
+
+    municipio.innerHTML =
+    '<option value="">Select Municipality</option>';
+
+    const municipios =
+    municipiosPorDepartamento[this.value] || [];
+
+    municipios.forEach(function(item){
+
+        const option =
+        document.createElement("option");
+
+        option.value = item;
+
+        option.textContent = item;
+
+        municipio.appendChild(option);
+
+    });
+
+});
+
+</script>
+
+<script>
+
+document.getElementById("formPrediccion")
+.addEventListener("submit", function(e){
+
+    e.preventDefault();
+
+    const campos =
+    document.querySelectorAll(
+        "#formPrediccion select, #formPrediccion input"
+    );
+
+    let valido = true;
+
+    campos.forEach(campo => {
+
+        if(campo.value.trim() === ""){
+
+            valido = false;
+
+            campo.classList.add("is-invalid");
+
+        }
+        else{
+
+            campo.classList.remove("is-invalid");
+
+        }
+
+    });
+
+    if(!valido){
+
+        document
+        .getElementById("mensajeError")
+        .classList.remove("d-none");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+
+        return;
+
+    }
+
+    document
+    .getElementById("mensajeError")
+    .classList.add("d-none");
+
+    this.submit();
+
+});
+
+</script>
+
+{% endblock %}

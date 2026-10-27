@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="text-center mb-5">
+
+        <h1 class="display-4 fw-bold">
+            Statistics Dashboard
+        </h1>
+
+        <p class="lead text-muted">
+            Explore educational trends from the Saber 11 dataset.
+        </p>
+
+    </div>
+
+    <div class="row g-4 mb-5">
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h2 class="text-primary">
+                        7M+
+                    </h2>
+
+                    <p>
+                        Original Records
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h2 class="text-success">
+                        100K
+                    </h2>
+
+                    <p>
+                        Training Records
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h2 class="text-warning">
+                        15
+                    </h2>
+
+                    <p>
+                        Features
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center">
+
+                <div class="card-body">
+
+                    <h2 class="text-danger">
+                        0.23
+                    </h2>
+
+                    <p>
+                        R² Score
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h3 class="mb-4">
+                Average Score by Socioeconomic Level
+            </h3>
+
+            <canvas id="chartEstrato" height="120"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body">
+
+            <h3 class="mb-4">
+                Official vs Private Schools
+            </h3>
+
+            <canvas id="chartNaturaleza" height="120"></canvas>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow">
+
+        <div class="card-body">
+
+            <h3 class="mb-4">
+                Urban vs Rural Schools
+            </h3>
+
+            <canvas id="chartArea" height="120"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    // Estrato
+
+    new Chart(
+        document.getElementById("chartEstrato"),
+        {
+            type: "bar",
+            data: {
+                labels: {{ estrato["labels"] | tojson }},
+                datasets: [{
+                    label: "Average Score",
+                    data: {{ estrato["values"] | tojson }},
+                    backgroundColor: [
+                        "#0d6efd",
+                        "#198754",
+                        "#ffc107",
+                        "#dc3545",
+                        "#6f42c1",
+                        "#20c997",
+                        "#0dcaf0"
+                    ]
+                }]
+            },
+            options: {
+                responsive: true
+            }
+        }
+    );
+
+    // Naturaleza del colegio
+
+    new Chart(
+        document.getElementById("chartNaturaleza"),
+        {
+            type: "doughnut",
+            data: {
+                labels: {{ naturaleza["labels"] | tojson }},
+                datasets: [{
+                    data: {{ naturaleza["values"] | tojson }},
+                    backgroundColor: [
+                        "#0d6efd",
+                        "#dc3545",
+                        "#198754",
+                        "#ffc107"
+                    ]
+                }]
+            }
+        }
+    );
+
+    // Área
+
+    new Chart(
+        document.getElementById("chartArea"),
+        {
+            type: "pie",
+            data: {
+                labels: {{ area["labels"] | tojson }},
+                datasets: [{
+                    data: {{ area["values"] | tojson }},
+                    backgroundColor: [
+                        "#198754",
+                        "#dc3545",
+                        "#0d6efd",
+                        "#ffc107"
+                    ]
+                }]
+            }
+        }
+    );
+
+});
+
+</script>
+
+{% endblock %}

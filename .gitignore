@@ -1,0 +1,7 @@
+venv/
+__pycache__/
+dataset/
+*.csv
+
+modelo/modelo.pkl
+modelo/encoders.pkl

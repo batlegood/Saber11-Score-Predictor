@@ -1,0 +1,489 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card border-0 shadow-lg bg-primary text-white mb-5">
+
+        <div class="card-body text-center py-5">
+
+            <h1 class="fw-bold">
+                Understanding The Project
+            </h1>
+
+            <p class="lead mb-0">
+                Learn how the Intelligent Saber 11 Predictor works.
+            </p>
+
+        </div>
+
+    </div>
+
+    <ul class="nav nav-pills nav-fill mb-5">
+
+        <li class="nav-item">
+            <button class="nav-link active"
+                    data-bs-toggle="pill"
+                    data-bs-target="#overview">
+                Overview
+            </button>
+        </li>
+
+        <li class="nav-item">
+            <button class="nav-link"
+                    data-bs-toggle="pill"
+                    data-bs-target="#workflow">
+                How It Works
+            </button>
+        </li>
+
+        <li class="nav-item">
+            <button class="nav-link"
+                    data-bs-toggle="pill"
+                    data-bs-target="#features">
+                Features
+            </button>
+        </li>
+
+        <li class="nav-item">
+            <button class="nav-link"
+                    data-bs-toggle="pill"
+                    data-bs-target="#scores">
+                Score Levels
+            </button>
+        </li>
+
+    </ul>
+
+    <div class="tab-content">
+
+        <!-- OVERVIEW -->
+
+        <div class="tab-pane fade show active" id="overview">
+
+            <div class="card border-0 shadow-lg">
+
+                <div class="card-body p-5">
+
+                    <h2 class="text-primary">
+                        Project Overview
+                    </h2>
+
+                    <p class="mt-4">
+
+                        Intelligent Saber 11 Predictor is a Machine Learning
+                        platform designed to estimate the academic performance
+                        of students before taking the Saber 11 examination.
+
+                    </p>
+
+                    <p>
+
+                        The application analyzes educational, family, and
+                        socioeconomic information and uses a trained predictive
+                        model to estimate a student's global score.
+
+                    </p>
+
+                    <p>
+
+                        In addition to score prediction, the platform provides
+                        educational statistics, visualizations, and insights
+                        based on real ICFES data.
+
+                    </p>
+
+                    <div class="row g-4 mt-4">
+
+                        <div class="col-md-3">
+
+                            <div class="card border-0 shadow text-center h-100">
+
+                                <div class="card-body">
+
+                                    <h2 class="text-primary">7M+</h2>
+
+                                    <p class="mb-0">
+                                        Original Records
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <div class="card border-0 shadow text-center h-100">
+
+                                <div class="card-body">
+
+                                    <h2 class="text-success">100K</h2>
+
+                                    <p class="mb-0">
+                                        Training Dataset
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <div class="card border-0 shadow text-center h-100">
+
+                                <div class="card-body">
+
+                                    <h2 class="text-warning">16</h2>
+
+                                    <p class="mb-0">
+                                        Features Used
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-3">
+
+                            <div class="card border-0 shadow text-center h-100">
+
+                                <div class="card-body">
+
+                                    <h2 class="text-danger">0.23</h2>
+
+                                    <p class="mb-0">
+                                        R² Score
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- HOW IT WORKS -->
+
+        <div class="tab-pane fade" id="workflow">
+
+            <div class="card border-0 shadow-lg">
+
+                <div class="card-body p-5">
+
+                    <h2 class="text-primary mb-4">
+                        How The System Works
+                    </h2>
+
+                    <p>
+
+                        The Intelligent Saber 11 Predictor uses
+                        Machine Learning techniques to estimate
+                        student performance using historical
+                        educational data obtained from ICFES.
+
+                    </p>
+
+                    <div class="row g-4 mt-4">
+
+                        <div class="col-md-6">
+
+                            <div class="card border-0 shadow h-100">
+
+                                <div class="card-body">
+
+                                    <h4 class="text-primary">
+                                        Step 1: Data Collection
+                                    </h4>
+
+                                    <p>
+
+                                        The user enters academic,
+                                        family and socioeconomic
+                                        information in the prediction form.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="card border-0 shadow h-100">
+
+                                <div class="card-body">
+
+                                    <h4 class="text-success">
+                                        Step 2: Data Processing
+                                    </h4>
+
+                                    <p>
+
+                                        The system validates and
+                                        prepares the data before it
+                                        is analyzed.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="card border-0 shadow h-100">
+
+                                <div class="card-body">
+
+                                    <h4 class="text-warning">
+                                        Step 3: Data Encoding
+                                    </h4>
+
+                                    <p>
+
+                                        Text values are converted
+                                        into numerical values using
+                                        Label Encoders.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <div class="card border-0 shadow h-100">
+
+                                <div class="card-body">
+
+                                    <h4 class="text-danger">
+                                        Step 4: Machine Learning Prediction
+                                    </h4>
+
+                                    <p>
+
+                                        A trained Random Forest model
+                                        analyzes the information and
+                                        estimates the global score.
+
+                                    </p>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <div class="card border-0 shadow mt-5">
+
+                        <div class="card-body">
+
+                            <h3 class="text-center mb-4">
+                                System Workflow
+                            </h3>
+
+                            <div class="row g-3 text-center">
+
+                                <div class="col-md-2">
+                                    <div class="card bg-primary text-white">
+                                        <div class="card-body">
+                                            User Input
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card bg-success text-white">
+                                        <div class="card-body">
+                                            Validation
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card bg-info text-white">
+                                        <div class="card-body">
+                                            Encoding
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card bg-warning">
+                                        <div class="card-body">
+                                            Random Forest
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card bg-danger text-white">
+                                        <div class="card-body">
+                                            Prediction
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <div class="card bg-dark text-white">
+                                        <div class="card-body">
+                                            Results
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- FEATURES -->
+
+        <div class="tab-pane fade" id="features">
+
+            <div class="card border-0 shadow-lg">
+
+                <div class="card-body p-5">
+
+                    <h2 class="text-primary">
+                        Main Features
+                    </h2>
+
+                    <div class="row mt-4 g-4">
+
+                        <div class="col-md-6">
+                            <div class="alert alert-primary">
+                                Global Score Prediction
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="alert alert-success">
+                                Machine Learning Analysis
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="alert alert-warning">
+                                Educational Statistics Dashboard
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="alert alert-danger">
+                                Interactive Charts
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="alert alert-info">
+                                Historical Data Analysis
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="alert alert-secondary">
+                                Responsive Web Interface
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- SCORE LEVELS -->
+
+        <div class="tab-pane fade" id="scores">
+
+            <div class="card border-0 shadow-lg">
+
+                <div class="card-body p-5">
+
+                    <h2 class="text-primary mb-4">
+                        Score Levels
+                    </h2>
+
+                    <div class="row g-4">
+
+                        <div class="col-md-2">
+                            <div class="card bg-danger text-white text-center p-4">
+                                <h5>Very Low</h5>
+                                <h3>0 - 199</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="card bg-warning text-center p-4">
+                                <h5>Low</h5>
+                                <h3>200 - 299</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-2">
+                            <div class="card bg-info text-white text-center p-4">
+                                <h5>Medium</h5>
+                                <h3>300 - 349</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card bg-success text-white text-center p-4">
+                                <h5>High</h5>
+                                <h3>350 - 399</h3>
+                            </div>
+                        </div>
+
+                        <div class="col-md-3">
+                            <div class="card bg-primary text-white text-center p-4">
+                                <h5>Excellent</h5>
+                                <h3>400 - 500</h3>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
