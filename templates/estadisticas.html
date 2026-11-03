@@ -11,12 +11,12 @@
         </h1>
 
         <p class="lead text-muted">
-            Explore educational trends from the Saber 11 dataset.
+            Explore educational trends and machine learning performance.
         </p>
 
     </div>
 
-    <div class="row g-4 mb-5">
+    <div class="row g-4 mb-4">
 
         <div class="col-md-3">
 
@@ -85,12 +85,84 @@
                 <div class="card-body">
 
                     <h2 class="text-danger">
-                        0.23
+                        2
                     </h2>
 
                     <p>
-                        R² Score
+                        ML Models
                     </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-header bg-dark text-white">
+
+            Machine Learning Performance
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="row">
+
+                <div class="col-md-6">
+
+                    <div class="border rounded p-3 h-100">
+
+                        <h4 class="text-primary">
+                            Random Forest
+                        </h4>
+
+                        <p>
+                            <strong>R²:</strong>
+                            {{ metricas.random_forest.r2 }}
+                        </p>
+
+                        <p>
+                            <strong>MAE:</strong>
+                            {{ metricas.random_forest.mae }}
+                        </p>
+
+                        <p>
+                            <strong>RMSE:</strong>
+                            {{ metricas.random_forest.rmse }}
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="border rounded p-3 h-100">
+
+                        <h4 class="text-success">
+                            Linear Regression
+                        </h4>
+
+                        <p>
+                            <strong>R²:</strong>
+                            {{ metricas.linear_regression.r2 }}
+                        </p>
+
+                        <p>
+                            <strong>MAE:</strong>
+                            {{ metricas.linear_regression.mae }}
+                        </p>
+
+                        <p>
+                            <strong>RMSE:</strong>
+                            {{ metricas.linear_regression.rmse }}
+                        </p>
+
+                    </div>
 
                 </div>
 
@@ -104,11 +176,11 @@
 
         <div class="card-body">
 
-            <h3 class="mb-4">
-                Average Score by Socioeconomic Level
+            <h3 class="mb-3">
+                Machine Learning Model Comparison
             </h3>
 
-            <canvas id="chartEstrato" height="120"></canvas>
+            <canvas id="chartModelos" height="60"></canvas>
 
         </div>
 
@@ -118,46 +190,133 @@
 
         <div class="card-body">
 
-            <h3 class="mb-4">
-                Official vs Private Schools
+            <h3 class="mb-3">
+                Average Score by Socioeconomic Level
             </h3>
 
-            <canvas id="chartNaturaleza" height="120"></canvas>
+            <canvas id="chartEstrato" height="70"></canvas>
 
         </div>
 
     </div>
 
-    <div class="card shadow">
+    <div class="row g-4">
 
-        <div class="card-body">
+        <div class="col-md-6">
 
-            <h3 class="mb-4">
-                Urban vs Rural Schools
-            </h3>
+            <div class="card shadow">
 
-            <canvas id="chartArea" height="120"></canvas>
+                <div class="card-body">
+
+                    <h3 class="mb-3">
+                        Official vs Private Schools
+                    </h3>
+
+                    <canvas
+                        id="chartNaturaleza"
+                        height="70">
+                    </canvas>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-6">
+
+            <div class="card shadow">
+
+                <div class="card-body">
+
+                    <h3 class="mb-3">
+                        Urban vs Rural Schools
+                    </h3>
+
+                    <canvas
+                        id="chartArea"
+                        height="70">
+                    </canvas>
+
+                </div>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
+
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    // Estrato
+    new Chart(
+        document.getElementById("chartModelos"),
+        {
+            type: "bar",
+
+            data: {
+
+                labels: [
+                    "R²",
+                    "MAE",
+                    "RMSE"
+                ],
+
+                datasets: [
+
+                    {
+                        label: "Random Forest",
+
+                        data: [
+                            {{ metricas.random_forest.r2 }},
+                            {{ metricas.random_forest.mae }},
+                            {{ metricas.random_forest.rmse }}
+                        ],
+
+                        backgroundColor: "#0d6efd"
+                    },
+
+                    {
+                        label: "Linear Regression",
+
+                        data: [
+                            {{ metricas.linear_regression.r2 }},
+                            {{ metricas.linear_regression.mae }},
+                            {{ metricas.linear_regression.rmse }}
+                        ],
+
+                        backgroundColor: "#198754"
+                    }
+
+                ]
+
+            },
+
+            options: {
+                responsive: true
+            }
+
+        }
+    );
 
     new Chart(
         document.getElementById("chartEstrato"),
         {
             type: "bar",
+
             data: {
+
                 labels: {{ estrato["labels"] | tojson }},
+
                 datasets: [{
+
                     label: "Average Score",
+
                     data: {{ estrato["values"] | tojson }},
+
                     backgroundColor: [
                         "#0d6efd",
                         "#198754",
@@ -167,53 +326,69 @@ document.addEventListener("DOMContentLoaded", function () {
                         "#20c997",
                         "#0dcaf0"
                     ]
+
                 }]
+
             },
+
             options: {
                 responsive: true
             }
+
         }
     );
-
-    // Naturaleza del colegio
 
     new Chart(
         document.getElementById("chartNaturaleza"),
         {
             type: "doughnut",
+
             data: {
+
                 labels: {{ naturaleza["labels"] | tojson }},
+
                 datasets: [{
+
                     data: {{ naturaleza["values"] | tojson }},
+
                     backgroundColor: [
                         "#0d6efd",
                         "#dc3545",
                         "#198754",
                         "#ffc107"
                     ]
+
                 }]
+
             }
+
         }
     );
-
-    // Área
 
     new Chart(
         document.getElementById("chartArea"),
         {
             type: "pie",
+
             data: {
+
                 labels: {{ area["labels"] | tojson }},
+
                 datasets: [{
+
                     data: {{ area["values"] | tojson }},
+
                     backgroundColor: [
                         "#198754",
                         "#dc3545",
                         "#0d6efd",
                         "#ffc107"
                     ]
+
                 }]
+
             }
+
         }
     );
 

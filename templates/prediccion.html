@@ -388,89 +388,31 @@
 
     {% if resultado %}
 
-    <div class="mt-5">
+<div class="mt-5">
 
-        <h2 class="text-center mb-4">
-            Prediction Results
-        </h2>
+    <h2 class="text-center mb-4">
+        Model Prediction Comparison
+    </h2>
 
-        <div class="row g-4">
+    <div class="row g-4">
 
-            <div class="col-md-3">
+        <div class="col-md-3">
 
-                <div class="card shadow text-center">
+            <div class="card shadow text-center border-primary">
 
-                    <div class="card-body">
+                <div class="card-body">
 
-                        <h6 class="text-muted">
-                            Predicted Score
-                        </h6>
+                    <h6 class="text-muted">
+                        Random Forest
+                    </h6>
 
-                        <h1 class="text-primary">
-                            {{ resultado.score }}
-                        </h1>
+                    <h1 class="text-primary">
+                    {{ resultado.score_rf }}
+                </h1>
 
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <div class="card shadow text-center">
-
-                    <div class="card-body">
-
-                        <h6 class="text-muted">
-                            Performance Level
-                        </h6>
-
-                        <h3>
-                            {{ resultado.level }}
-                        </h3>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <div class="card shadow text-center">
-
-                    <div class="card-body">
-
-                        <h6 class="text-muted">
-                            National Average
-                        </h6>
-
-                        <h3>
-                            258
-                        </h3>
-
-                    </div>
-
-                </div>
-
-            </div>
-
-            <div class="col-md-3">
-
-                <div class="card shadow text-center">
-
-                    <div class="card-body">
-
-                        <h6 class="text-muted">
-                            Difference
-                        </h6>
-
-                        <h3 class="text-success">
-                            {{ resultado.score - 258 }}
-                        </h3>
-
-                    </div>
+                <span class="badge bg-primary">
+                    {{ resultado.level_rf }}
+                </span>
 
                 </div>
 
@@ -478,20 +420,45 @@
 
         </div>
 
-        <div class="card shadow mt-4">
+        <div class="col-md-3">
 
-            <div class="card-body">
+            <div class="card shadow text-center border-success">
 
-                <h3>
-                    Recommendations
-                </h3>
+                <div class="card-body">
 
-                <ul>
-                    <li>Continue practicing with mock exams.</li>
-                    <li>Strengthen reading comprehension skills.</li>
-                    <li>Review weak academic areas regularly.</li>
-                    <li>Maintain a consistent study routine.</li>
-                </ul>
+                    <h6 class="text-muted">
+                        Linear Regression
+                    </h6>
+
+                     <h1 class="text-success">
+                {{ resultado.score_lr }}
+            </h1>
+
+            <span class="badge bg-success">
+                {{ resultado.level_lr }}
+            </span>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="card shadow text-center border-warning">
+
+                <div class="card-body">
+
+                    <h6 class="text-muted">
+                        Difference
+                    </h6>
+
+                    <h1 class="text-warning">
+                        {{ resultado.difference }}
+                    </h1>
+
+                </div>
 
             </div>
 
@@ -499,9 +466,78 @@
 
         
 
-    {% endif %}
+    </div>
+
+    <div class="card shadow mt-4">
+
+        <div class="card-body">
+
+            <h3 class="mb-3">
+                Machine Learning Analysis
+            </h3>
+
+            <p>
+
+                The prediction was generated using two different
+                Machine Learning models:
+
+            </p>
+
+            <ul>
+
+                <li>
+                    <strong>Random Forest Regression</strong>
+                    uses multiple decision trees to improve prediction accuracy.
+                </li>
+
+                <li>
+                    <strong>Linear Regression</strong>
+                    estimates the score through linear relationships between variables.
+                </li>
+
+            </ul>
+
+            <p>
+
+                Difference between models:
+                <strong>{{ resultado.difference }} points</strong>
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mt-4">
+
+        <div class="card-body">
+
+            <h3>
+                Recommendations
+            </h3>
+
+            <ul>
+
+                <li>Continue practicing with mock exams.</li>
+
+                <li>Strengthen reading comprehension skills.</li>
+
+                <li>Review weak academic areas regularly.</li>
+
+                <li>Maintain a consistent study routine.</li>
+
+            </ul>
+
+        </div>
+
+    </div>
 
 </div>
+
+{% endif %}
+
+</div>
+
 <script>
 
 const municipiosPorDepartamento =
@@ -513,28 +549,31 @@ document.getElementById("departamento");
 const municipio =
 document.getElementById("municipio");
 
-departamento.addEventListener("change", function () {
+if (departamento && municipio) {
 
-    municipio.innerHTML =
-    '<option value="">Select Municipality</option>';
+    departamento.addEventListener("change", function () {
 
-    const municipios =
-    municipiosPorDepartamento[this.value] || [];
+        municipio.innerHTML =
+        '<option value="">Select Municipality</option>';
 
-    municipios.forEach(function(item){
+        const municipios =
+        municipiosPorDepartamento[this.value] || [];
 
-        const option =
-        document.createElement("option");
+        municipios.forEach(function(item){
 
-        option.value = item;
+            const option =
+            document.createElement("option");
 
-        option.textContent = item;
+            option.value = item;
+            option.textContent = item;
 
-        municipio.appendChild(option);
+            municipio.appendChild(option);
+
+        });
 
     });
 
-});
+}
 
 </script>
 
@@ -574,11 +613,6 @@ document.getElementById("formPrediccion")
         document
         .getElementById("mensajeError")
         .classList.remove("d-none");
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
 
         return;
 

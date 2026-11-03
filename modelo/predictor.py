@@ -1,7 +1,9 @@
 import pandas as pd
 import joblib
 
-modelo = joblib.load("modelo/modelo.pkl")
+modelo_rf = joblib.load("modelo/modelo_rf.pkl")
+modelo_lr = joblib.load("modelo/modelo_lr.pkl")
+
 encoders = joblib.load("modelo/encoders.pkl")
 
 
@@ -31,16 +33,38 @@ def predecir(datos):
         if columna in encoders:
 
             try:
-                nuevo[columna] = encoders[columna].transform(
-                    nuevo[columna]
+
+                nuevo[columna] = (
+                    encoders[columna]
+                    .transform(nuevo[columna])
                 )
 
             except:
+
                 nuevo[columna] = 0
 
-    score = modelo.predict(nuevo)[0]
+    score_rf = modelo_rf.predict(nuevo)[0]
+
+    score_lr = modelo_lr.predict(nuevo)[0]
+
+    level_rf = clasificar_nivel(score_rf)
+
+    level_lr = clasificar_nivel(score_lr)
+
+    diferencia = abs(
+        round(score_rf) - round(score_lr)
+    )
 
     return {
-        "score": round(score),
-        "level": clasificar_nivel(score)
+
+        "score_rf": round(score_rf),
+
+        "level_rf": level_rf,
+
+        "score_lr": round(score_lr),
+
+        "level_lr": level_lr,
+
+        "difference": diferencia
+
     }
