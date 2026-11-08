@@ -2,6 +2,39 @@
 
 {% block content %}
 
+{% if sin_resultados %}
+
+<div class="container py-5">
+
+    <div class="alert alert-warning text-center shadow">
+
+        <h3>
+
+            Statistics Not Available
+
+        </h3>
+
+        <p>
+
+            Please complete the Academic Assessment first
+            to view your statistics, charts and personalized
+            recommendations.
+
+        </p>
+
+        <a href="/assessment"
+           class="btn btn-primary">
+
+            Take Assessment
+
+        </a>
+
+    </div>
+
+</div>
+
+{% else %}
+
 <div class="container py-5">
 
     <h1 class="text-center mb-5">
@@ -560,7 +593,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 </script>
 
-
+{% endif %}
 
 {% endblock %}
 

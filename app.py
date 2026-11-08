@@ -420,6 +420,13 @@ def prediccion():
 @app.route("/estadisticas")
 def estadisticas():
 
+    if "resultado_materias" not in session:
+
+        return render_template(
+            "estadisticas.html",
+            sin_resultados=True
+        )
+
     metricas = obtener_metricas()
 
     estrato = promedio_por_estrato()
@@ -437,7 +444,7 @@ def estadisticas():
     )
 
     peor_materia = session.get(
-"peor_materia"
+        "peor_materia"
     )
 
     mejor_icfes_score = mejor_icfes()
@@ -447,11 +454,11 @@ def estadisticas():
         metricas=metricas,
         estrato=estrato,
         naturaleza=naturaleza,
-        area=promedio_por_area(),
+        area=area,
         resultado_materias=resultado_materias,
         mejor_materia=mejor_materia,
         peor_materia=peor_materia,
-        mejor_icfes_score = mejor_icfes_score
+        mejor_icfes_score=mejor_icfes_score
     )
 
 
