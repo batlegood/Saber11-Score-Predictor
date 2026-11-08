@@ -3,8 +3,12 @@ from flask import Flask, render_template, request, session, redirect, url_for
 from modelo.predictor import predecir
 from modelo.catalogos import obtener_catalogos
 from modelo.conexion import obtener_conexion
+from calcular_resultados import calcular_puntajes
+from assessment_questions import QUESTIONS
 
 from modelo.analisis import (
+    mejor_icfes,
+    obtener_metricas,
     promedio_por_estrato,
     promedio_por_naturaleza,
     promedio_por_area
@@ -176,7 +180,12 @@ def crear_usuario(nombre, usuario, correo, password):
 
     conexion.close()
 
-@app.route("/", methods=["GET", "POST"])
+@app.route("/")
+def inicio():
+
+    return render_template("index.html")
+
+@app.route("/login", methods=["GET", "POST"])
 def login():
 
     error = None
@@ -195,7 +204,9 @@ def login():
 
             session["usuario"] = usuario
 
-            return redirect("/home")
+            session["nombre"] = usuario_db[1]
+
+            return redirect("/learning")
 
         else:
 
@@ -245,7 +256,69 @@ def register():
         mensaje=mensaje
     ) 
     
+@app.route("/development")
+def development():
 
+    return render_template(
+        "project_development.html"
+    )
+
+@app.route("/about")
+def about():
+
+    return render_template(
+        "about_project.html"
+    )
+
+@app.route("/assessment", methods=["GET", "POST"])
+def assessment():
+
+    if "usuario" not in session:
+        return redirect("/login")
+
+    resultado_materias = None
+
+    if request.method == "POST":
+
+        respuestas = request.form.to_dict()
+
+        resultado_materias = calcular_puntajes(
+            respuestas
+        )
+
+        print("\n==========================")
+        print("RESULTADO_MATERIAS")
+        print(resultado_materias)
+        print("==========================\n")
+
+        session["resultado_materias"] = resultado_materias
+        session["mejor_materia"] = resultado_materias["mejor_materia"]
+        session["peor_materia"] = resultado_materias["peor_materia"]
+
+        print("\n==========================")
+        print("RESULTADO_MATERIAS")
+        print(resultado_materias)
+        print(type(resultado_materias))
+        print("==========================")
+
+        
+
+    return render_template(
+        "academic_assessment.html",
+        questions=QUESTIONS,
+        resultado_materias=resultado_materias
+    )
+
+@app.route("/learning")
+def learning():
+
+    if "usuario" not in session:
+
+        return redirect("/login")
+
+    return render_template(
+        "learning_models.html"
+    )
 
 @app.route("/home")
 def home():
@@ -347,9 +420,7 @@ def prediccion():
 @app.route("/estadisticas")
 def estadisticas():
 
-    if "usuario" not in session:
-
-        return redirect("/")
+    metricas = obtener_metricas()
 
     estrato = promedio_por_estrato()
 
@@ -357,16 +428,30 @@ def estadisticas():
 
     area = promedio_por_area()
 
-    metricas = joblib.load(
-        "modelo/metricas.pkl"
+    resultado_materias = session.get(
+        "resultado_materias"
     )
+
+    mejor_materia = session.get(
+        "mejor_materia"
+    )
+
+    peor_materia = session.get(
+"peor_materia"
+    )
+
+    mejor_icfes_score = mejor_icfes()
 
     return render_template(
         "estadisticas.html",
+        metricas=metricas,
         estrato=estrato,
         naturaleza=naturaleza,
-        area=area,
-        metricas=metricas
+        area=promedio_por_area(),
+        resultado_materias=resultado_materias,
+        mejor_materia=mejor_materia,
+        peor_materia=peor_materia,
+        mejor_icfes_score = mejor_icfes_score
     )
 
 

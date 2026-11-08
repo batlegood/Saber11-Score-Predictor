@@ -1,4 +1,5 @@
 import pandas as pd
+import joblib
 
 df = pd.read_csv("dataset/saber11_100k.csv")
 
@@ -43,3 +44,20 @@ def promedio_por_area():
         "labels": [str(x) for x in datos.index],
         "values": [float(x) for x in datos.values]
     }
+
+
+def obtener_metricas():
+
+    return joblib.load(
+        "modelo/metricas.pkl"
+    )
+
+def mejor_icfes():
+
+    return int(
+        df["PUNT_GLOBAL"].max()
+    )
+
+
+
+    

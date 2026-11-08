@@ -1,0 +1,447 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card bg-primary text-white shadow-lg mb-4">
+        <div class="card-body text-center">
+            <h1 class="fw-bold">
+                Academic Assessment
+            </h1>
+
+            <p class="lead mb-0">
+                Complete all academic and socioeconomic questions before submitting.
+            </p>
+        </div>
+    </div>
+
+    <div class="progress mb-4" style="height:30px;">
+        <div
+            id="progressBar"
+            class="progress-bar progress-bar-striped progress-bar-animated bg-success"
+            role="progressbar"
+            style="width:16%">
+            Step 1 of 6
+        </div>
+    </div>
+
+    <form method="POST" id="assessmentForm">
+
+        {% for materia, preguntas in questions.items() %}
+
+        <div class="card shadow mb-4 section">
+
+            <div class="card-header bg-dark text-white">
+                <h4 class="mb-0">
+                    {{ materia }}
+                </h4>
+            </div>
+
+            <div class="card-body">
+
+                {% for pregunta in preguntas %}
+
+                <div class="mb-4">
+
+                    <h5>
+                        Question {{ loop.index }}
+                    </h5>
+
+                    <p>
+                        {{ pregunta.question }}
+                    </p>
+
+                    {% for letra, opcion in pregunta.options.items() %}
+
+                    <div class="form-check">
+
+                        <input
+                            class="form-check-input"
+                            type="radio"
+                            name="{{ pregunta.id }}"
+                            value="{{ letra }}">
+
+                        <label class="form-check-label">
+                            <strong>{{ letra }}.</strong>
+                            {{ opcion }}
+                        </label>
+
+                    </div>
+
+                    {% endfor %}
+
+                </div>
+
+                <hr>
+
+                {% endfor %}
+
+                <div class="d-flex justify-content-between">
+
+                    <button
+                        type="button"
+                        class="btn btn-secondary prev-btn">
+                        ← Previous
+                    </button>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary next-btn">
+                        Next →
+                    </button>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+        <div class="text-center mb-5">
+
+            <button
+                id="submitBtn"
+                type="submit"
+                class="btn btn-success btn-lg px-5"
+                style="display:none;">
+                Finish Assessment
+            </button>
+
+        </div>
+
+    </form>
+
+    {% if resultado_materias %}
+
+<div class="card shadow mt-5">
+
+    <div class="card-header bg-success text-white">
+        Assessment Results
+    </div>
+
+    <div class="card-body">
+
+        <div class="row text-center mb-4">
+
+            <div class="col-md-4">
+                <h5>Predicted Score</h5>
+                <h1 class="text-success">
+                    {{ resultado_materias.puntaje_estimado }}
+                </h1>
+            </div>
+
+            <div class="col-md-4">
+                <h5>Overall Accuracy</h5>
+                <h1 class="text-primary">
+                    {{ resultado_materias.porcentaje_global }}%
+                </h1>
+            </div>
+
+            <div class="col-md-4">
+                <h5>Performance Level</h5>
+                <h1 class="text-warning">
+                    {{ resultado_materias.nivel }}
+                </h1>
+            </div>
+
+        </div>
+
+        <hr>
+
+<div class="row mb-4">
+
+    <div class="col-md-6">
+
+        <div class="card border-primary">
+
+            <div class="card-body text-center">
+
+                <h5>
+                    Strongest Area
+                </h5>
+
+                <h3 class="text-primary">
+                    {{ resultado_materias.mejor_materia }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-6">
+
+        <div class="card border-danger">
+
+            <div class="card-body text-center">
+
+                <h5>
+                    Area for Improvement
+                </h5>
+
+                <h3 class="text-danger">
+                    {{ resultado_materias.peor_materia }}
+                </h3>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<hr>
+
+<div class="row">
+
+            {% for materia, datos in resultado_materias.materias.items() %}
+
+            <div class="col-md-4 mb-3">
+
+                <div class="card border-success">
+
+                    <div class="card-body text-center">
+
+                        <h5>
+                            {{ materia }}
+                        </h5>
+
+                        <h2 class="text-success">
+                            {{ datos.percentage }}%
+                        </h2>
+
+                        <p>
+                            {% if materia != "Socioeconomic Profile" %}
+{{ datos.correct }}/{{ datos.total }}
+
+{% endif %}
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% endfor %}
+
+        </div>
+
+    </div>
+
+<div class="card mt-4 border-warning shadow">
+
+    <div class="card-header bg-warning fw-bold">
+        Personalized Recommendations
+    </div>
+
+    <div class="card-body">
+
+        <ul class="mb-0">
+
+            {% for rec in resultado_materias.recomendaciones %}
+
+            <li class="mb-2">
+                {{ rec }}
+            </li>
+
+            {% endfor %}
+
+        </ul>
+
+    </div>
+
+</div>
+
+<div class="card mt-4 border-info shadow">
+
+    <div class="card-header bg-info text-white fw-bold">
+        Random Forest Prediction Analysis
+    </div>
+
+    <div class="card-body">
+
+        <p>
+            The predicted score was generated using the
+            <strong>Random Forest Regression</strong>
+            model, selected as the primary machine learning model
+            because it achieved the highest accuracy during model evaluation
+            and comparison against Linear Regression.
+        </p>
+
+    </div>
+
+</div>
+    
+</div>
+
+
+{% endif %}
+
+</div>
+
+<script>
+
+const sections =
+document.querySelectorAll(".section");
+
+const progressBar =
+document.getElementById("progressBar");
+
+const submitBtn =
+document.getElementById("submitBtn");
+
+let current = 0;
+
+function validateSection(index){
+
+    const radios =
+    sections[index].querySelectorAll(
+        'input[type="radio"]'
+    );
+
+    const grupos = {};
+
+    radios.forEach(radio => {
+
+        if(!grupos[radio.name]){
+            grupos[radio.name] = false;
+        }
+
+        if(radio.checked){
+            grupos[radio.name] = true;
+        }
+
+    });
+
+    for(let nombre in grupos){
+
+        if(!grupos[nombre]){
+
+            alert(
+                "Please answer all questions in this section."
+            );
+
+            return false;
+
+        }
+
+    }
+
+    return true;
+}
+
+function showSection(index){
+
+    sections.forEach((sec,i)=>{
+
+        sec.style.display =
+        i === index
+        ? "block"
+        : "none";
+
+    });
+
+    const percent =
+    ((index + 1) /
+    sections.length) * 100;
+
+    progressBar.style.width =
+    percent + "%";
+
+    progressBar.innerText =
+    `Step ${index + 1} of ${sections.length}`;
+
+    const prev =
+    sections[index]
+    .querySelector(".prev-btn");
+
+    if(index === 0){
+        prev.style.visibility = "hidden";
+    }else{
+        prev.style.visibility = "visible";
+    }
+
+    const next =
+    sections[index]
+    .querySelector(".next-btn");
+
+    if(index === sections.length - 1){
+
+        next.style.display = "none";
+
+        submitBtn.style.display =
+        "inline-block";
+
+    }
+    else{
+
+        next.style.display =
+        "inline-block";
+
+        submitBtn.style.display =
+        "none";
+
+    }
+
+}
+
+showSection(0);
+
+document
+.querySelectorAll(".next-btn")
+.forEach(btn=>{
+
+    btn.addEventListener(
+        "click",
+        function(){
+
+            if(
+                !validateSection(current)
+            ){
+                return;
+            }
+
+            current++;
+
+            showSection(current);
+
+            window.scrollTo(
+                0,
+                0
+            );
+
+        }
+    );
+
+});
+
+document
+.querySelectorAll(".prev-btn")
+.forEach(btn=>{
+
+    btn.addEventListener(
+        "click",
+        function(){
+
+            current--;
+
+            showSection(current);
+
+            window.scrollTo(
+                0,
+                0
+            );
+
+        }
+    );
+
+});
+
+</script>
+
+{% endblock %}

@@ -1,173 +1,51 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
 {% block content %}
 
 <div class="container py-5">
 
-    <div class="text-center mb-5">
+    <h1 class="text-center mb-5">
+        Statistics Dashboard
+    </h1>
 
-        <h1 class="display-4 fw-bold">
-            Statistics Dashboard
-        </h1>
+    {% if resultado_materias %}
 
-        <p class="lead text-muted">
-            Explore educational trends and machine learning performance.
-        </p>
-
-    </div>
-
-    <div class="row g-4 mb-4">
+    <div class="row mb-4">
 
         <div class="col-md-3">
-
-            <div class="card shadow text-center">
-
+            <div class="card text-center border-success">
                 <div class="card-body">
-
-                    <h2 class="text-primary">
-                        7M+
-                    </h2>
-
-                    <p>
-                        Original Records
-                    </p>
-
+                    <h5>Best Subject</h5>
+                    <h3>{{ resultado_materias["mejor_materia"] }}</h3>
                 </div>
-
             </div>
-
         </div>
 
         <div class="col-md-3">
-
-            <div class="card shadow text-center">
-
+            <div class="card text-center border-danger">
                 <div class="card-body">
-
-                    <h2 class="text-success">
-                        100K
-                    </h2>
-
-                    <p>
-                        Training Records
-                    </p>
-
+                    <h5>Weakest Subject</h5>
+                    <h3>{{ resultado_materias["peor_materia"] }}</h3>
                 </div>
-
             </div>
-
         </div>
 
         <div class="col-md-3">
-
-            <div class="card shadow text-center">
-
+            <div class="card text-center border-primary">
                 <div class="card-body">
-
-                    <h2 class="text-warning">
-                        15
-                    </h2>
-
-                    <p>
-                        Features
-                    </p>
-
+                    <h5>Estimated Score</h5>
+                    <h3>{{ resultado_materias["puntaje_estimado"] }}</h3>
                 </div>
-
             </div>
-
         </div>
 
         <div class="col-md-3">
-
-            <div class="card shadow text-center">
-
+            <div class="card text-center border-warning">
                 <div class="card-body">
-
-                    <h2 class="text-danger">
-                        2
-                    </h2>
-
-                    <p>
-                        ML Models
-                    </p>
-
+                    <h5>Performance Level</h5>
+                    <h3>{{ resultado_materias["nivel"] }}</h3>
                 </div>
-
             </div>
-
-        </div>
-
-    </div>
-
-    <div class="card shadow mb-4">
-
-        <div class="card-header bg-dark text-white">
-
-            Machine Learning Performance
-
-        </div>
-
-        <div class="card-body">
-
-            <div class="row">
-
-                <div class="col-md-6">
-
-                    <div class="border rounded p-3 h-100">
-
-                        <h4 class="text-primary">
-                            Random Forest
-                        </h4>
-
-                        <p>
-                            <strong>R²:</strong>
-                            {{ metricas.random_forest.r2 }}
-                        </p>
-
-                        <p>
-                            <strong>MAE:</strong>
-                            {{ metricas.random_forest.mae }}
-                        </p>
-
-                        <p>
-                            <strong>RMSE:</strong>
-                            {{ metricas.random_forest.rmse }}
-                        </p>
-
-                    </div>
-
-                </div>
-
-                <div class="col-md-6">
-
-                    <div class="border rounded p-3 h-100">
-
-                        <h4 class="text-success">
-                            Linear Regression
-                        </h4>
-
-                        <p>
-                            <strong>R²:</strong>
-                            {{ metricas.linear_regression.r2 }}
-                        </p>
-
-                        <p>
-                            <strong>MAE:</strong>
-                            {{ metricas.linear_regression.mae }}
-                        </p>
-
-                        <p>
-                            <strong>RMSE:</strong>
-                            {{ metricas.linear_regression.rmse }}
-                        </p>
-
-                    </div>
-
-                </div>
-
-            </div>
-
         </div>
 
     </div>
@@ -177,68 +55,108 @@
         <div class="card-body">
 
             <h3 class="mb-3">
-                Machine Learning Model Comparison
+
+                Subject Results
+
             </h3>
 
-            <canvas id="chartModelos" height="60"></canvas>
+            <table class="table table-striped">
+
+                <thead>
+
+                    <tr>
+
+                        <th>Subject</th>
+                        <th>Correct</th>
+                        <th>Total</th>
+                        <th>Percentage</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                {% for materia, datos in resultado_materias["materias"].items() %}
+
+                    <tr>
+
+                        <td>{{ materia }}</td>
+
+                        <td>{{ datos["correct"] }}</td>
+
+                        <td>{{ datos["total"] }}</td>
+
+                        <td>{{ datos["percentage"] }}%</td>
+
+                    </tr>
+
+                {% endfor %}
+
+                </tbody>
+
+            </table>
 
         </div>
 
     </div>
 
-    <div class="card shadow mb-4">
 
-        <div class="card-body">
+<div style="height:400px;">
 
-            <h3 class="mb-3">
-                Average Score by Socioeconomic Level
-            </h3>
+    <canvas id="chartStudent"></canvas>
 
-            <canvas id="chartEstrato" height="70"></canvas>
+</div>
 
-        </div>
+<div class="row mt-4">
 
-    </div>
+    <div class="col-md-4">
 
-    <div class="row g-4">
+        <div class="card text-center shadow">
 
-        <div class="col-md-6">
+            <div class="card-body">
 
-            <div class="card shadow">
+                <h5>Total Questions</h5>
 
-                <div class="card-body">
-
-                    <h3 class="mb-3">
-                        Official vs Private Schools
-                    </h3>
-
-                    <canvas
-                        id="chartNaturaleza"
-                        height="70">
-                    </canvas>
-
-                </div>
+                <h2>
+                    {{ resultado_materias["total_preguntas"] }}
+                </h2>
 
             </div>
 
         </div>
 
-        <div class="col-md-6">
+    </div>
 
-            <div class="card shadow">
+    <div class="col-md-4">
 
-                <div class="card-body">
+        <div class="card text-center shadow">
 
-                    <h3 class="mb-3">
-                        Urban vs Rural Schools
-                    </h3>
+            <div class="card-body">
 
-                    <canvas
-                        id="chartArea"
-                        height="70">
-                    </canvas>
+                <h5>Correct Answers</h5>
 
-                </div>
+                <h2>
+                    {{ resultado_materias["total_correctas"] }}
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card text-center shadow">
+
+            <div class="card-body">
+
+                <h5>Global Percentage</h5>
+
+                <h2>
+                    {{ resultado_materias["porcentaje_global"] }}%
+                </h2>
 
             </div>
 
@@ -248,152 +166,405 @@
 
 </div>
 
+</div>
+
+    <div class="card shadow">
+
+        <div class="card-header bg-primary text-white">
+
+            Recommendations
+
+        </div>
+
+        <div class="card-body">
+
+            <ul>
+
+                {% for recomendacion in resultado_materias["recomendaciones"] %}
+
+                    <li>{{ recomendacion }}</li>
+
+                {% endfor %}
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mt-4">
+
+    <div class="card-body">
+
+        <h3 class="mb-4 text-center">
+            Student Score vs Best ICFES Score
+        </h3>
+
+        <div style="height:500px; width:100%;">
+
+            <canvas id="chartBestIcfes"></canvas>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+    <div class="card-body">
+
+        <h3>
+
+            Urban vs Rural Average Score
+
+        </h3>
+
+        <div style="height:400px;">
+
+    <canvas id="chartArea"></canvas>
+
+</div>
+
+    </div>
+
+</div>
+
+<div class="card shadow mt-4">
+
+    <div class="card-body">
+
+        <h3>
+            Official vs Private Schools
+        </h3>
+
+        <div style="height:400px;">
+
+            <canvas id="chartNaturaleza"></canvas>
+
+        </div>
+
+    </div>
+
+</div> 
+
+    <div class="text-center mt-4">
+
+    <a href="/assessment"
+       class="btn btn-primary">
+
+        New Assessment
+
+    </a>
+
+</div>
+
+    {% endif %}
+
+</div>
+
+
 <script>
 
 document.addEventListener("DOMContentLoaded", function () {
 
-    new Chart(
-        document.getElementById("chartModelos"),
-        {
-            type: "bar",
+    const canvas =
+    document.getElementById("chartStudent");
 
-            data: {
+    if (!canvas) {
 
-                labels: [
-                    "R²",
-                    "MAE",
-                    "RMSE"
+        console.log("Canvas not found");
+
+        return;
+    }
+
+    console.log("Chart loading...");
+
+    new Chart(canvas, {
+
+        type: "bar",
+
+        data: {
+
+            labels: [
+
+                "Critical Reading",
+                "English",
+                "Mathematics",
+                "Natural Sciences",
+                "Social Studies"
+
+            ],
+
+            datasets: [{
+
+                label: "Performance (%)",
+
+                data: [
+
+                    {{ resultado_materias["materias"]["Critical Reading"]["percentage"] }},
+                    {{ resultado_materias["materias"]["English"]["percentage"] }},
+                    {{ resultado_materias["materias"]["Mathematics"]["percentage"] }},
+                    {{ resultado_materias["materias"]["Natural Sciences"]["percentage"] }},
+                    {{ resultado_materias["materias"]["Social Studies"]["percentage"] }}
+
                 ],
 
-                datasets: [
+                backgroundColor: [
 
-                    {
-                        label: "Random Forest",
+                    "#0d6efd",
+                    "#198754",
+                    "#ffc107",
+                    "#20c997",
+                    "#dc3545"
 
-                        data: [
-                            {{ metricas.random_forest.r2 }},
-                            {{ metricas.random_forest.mae }},
-                            {{ metricas.random_forest.rmse }}
-                        ],
+                ],
 
-                        backgroundColor: "#0d6efd"
-                    },
+                borderWidth: 1
 
-                    {
-                        label: "Linear Regression",
+            }]
 
-                        data: [
-                            {{ metricas.linear_regression.r2 }},
-                            {{ metricas.linear_regression.mae }},
-                            {{ metricas.linear_regression.rmse }}
-                        ],
+        },
 
-                        backgroundColor: "#198754"
-                    }
+        options: {
 
-                ]
+            responsive: true,
 
-            },
+            maintainAspectRatio: false,
 
-            options: {
-                responsive: true
-            }
+            scales: {
 
-        }
-    );
+                y: {
 
-    new Chart(
-        document.getElementById("chartEstrato"),
-        {
-            type: "bar",
+                    beginAtZero: true,
 
-            data: {
+                    max: 100
 
-                labels: {{ estrato["labels"] | tojson }},
-
-                datasets: [{
-
-                    label: "Average Score",
-
-                    data: {{ estrato["values"] | tojson }},
-
-                    backgroundColor: [
-                        "#0d6efd",
-                        "#198754",
-                        "#ffc107",
-                        "#dc3545",
-                        "#6f42c1",
-                        "#20c997",
-                        "#0dcaf0"
-                    ]
-
-                }]
-
-            },
-
-            options: {
-                responsive: true
-            }
-
-        }
-    );
-
-    new Chart(
-        document.getElementById("chartNaturaleza"),
-        {
-            type: "doughnut",
-
-            data: {
-
-                labels: {{ naturaleza["labels"] | tojson }},
-
-                datasets: [{
-
-                    data: {{ naturaleza["values"] | tojson }},
-
-                    backgroundColor: [
-                        "#0d6efd",
-                        "#dc3545",
-                        "#198754",
-                        "#ffc107"
-                    ]
-
-                }]
+                }
 
             }
 
         }
-    );
 
-    new Chart(
-        document.getElementById("chartArea"),
-        {
-            type: "pie",
-
-            data: {
-
-                labels: {{ area["labels"] | tojson }},
-
-                datasets: [{
-
-                    data: {{ area["values"] | tojson }},
-
-                    backgroundColor: [
-                        "#198754",
-                        "#dc3545",
-                        "#0d6efd",
-                        "#ffc107"
-                    ]
-
-                }]
-
-            }
-
-        }
-    );
+    });
 
 });
 
 </script>
 
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const bestCanvas =
+    document.getElementById("chartBestIcfes");
+
+    if(bestCanvas){
+
+        new Chart(bestCanvas, {
+
+            type: "bar",
+
+            data: {
+
+                labels: [
+
+                    "Student",
+                    "Best ICFES"
+
+                ],
+
+                datasets: [{
+
+                    label: "Global Score",
+
+                    data: [
+
+                        {{ resultado_materias["puntaje_estimado"] }},
+                        {{ mejor_icfes_score }}
+
+                    ],
+
+                    backgroundColor: [
+
+                        "#0d6efd",
+                        "#198754"
+
+                    ]
+
+                }]
+
+            },
+
+            options: {
+
+                responsive: true,
+
+                scales: {
+
+                    y: {
+
+                        beginAtZero: true,
+
+                        max: 500
+
+                    }
+
+                }
+
+            }
+
+        });
+
+    }
+
+});
+
+</script>
+
+
+
+<script>
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    console.log("AREA");
+    console.log({{ area | tojson }});
+
+    const areaCanvas =
+    document.getElementById("chartArea");
+
+    console.log(areaCanvas);
+
+    if (!areaCanvas) {
+        console.log("chartArea no encontrado");
+        return;
+    }
+
+    new Chart(areaCanvas, {
+
+        type: "bar",
+
+        data: {
+
+            labels: {{ area["labels"] | tojson }},
+
+            datasets: [{
+
+                label: "Average Score",
+
+                data: {{ area["values"] | tojson }},
+
+                backgroundColor: [
+
+                    "#198754",
+                    "#dc3545"
+
+                ],
+
+                borderWidth: 1
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    });
+
+});
+
+
+
+</script>
+
+<script>    
+    
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    const naturalezaCanvas =
+    document.getElementById("chartNaturaleza");
+
+    if (!naturalezaCanvas) {
+
+        console.log("chartNaturaleza no encontrado");
+
+        return;
+    }
+
+    new Chart(naturalezaCanvas, {
+
+        type: "bar",
+
+        data: {
+
+            labels: {{ naturaleza["labels"] | tojson }},
+
+            datasets: [{
+
+                label: "Average Score",
+
+                data: {{ naturaleza["values"] | tojson }},
+
+                backgroundColor: [
+
+                    "#0d6efd",
+                    "#ffc107"
+
+                ],
+
+                borderWidth: 1
+
+            }]
+
+        },
+
+        options: {
+
+            responsive: true,
+
+            maintainAspectRatio: false,
+
+            scales: {
+
+                y: {
+
+                    beginAtZero: true
+
+                }
+
+            }
+
+        }
+
+    });
+
+});
+
+</script>
+
+
+
 {% endblock %}
+
+
+
+
+

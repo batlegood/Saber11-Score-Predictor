@@ -1,0 +1,390 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="container py-5">
+
+    <div class="card bg-primary text-white border-0 shadow-lg mb-5">
+
+        <div class="card-body p-5 text-center">
+
+            <h1 class="fw-bold">
+
+                Machine Learning Models
+
+            </h1>
+
+            <p class="lead mb-0">
+
+                Understanding how Artificial Intelligence powers
+                the Intelligent Academic Assistant for Saber 11
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="card border-start border-5 border-primary shadow mb-4">
+
+        <div class="card-body p-4">
+
+            <h2 class="text-primary">
+
+                What is Machine Learning?
+
+            </h2>
+
+            <p>
+
+                Machine Learning is a branch of Artificial Intelligence
+                that enables computers to learn patterns from historical
+                data and make predictions without being explicitly programmed
+                with fixed rules. Instead of following predefined calculations,
+                Machine Learning algorithms identify relationships among
+                variables and use those relationships to estimate future results.
+
+            </p>
+
+            <p>
+
+                In this project, Machine Learning is used to analyze academic,
+                family and socioeconomic factors and estimate the possible
+                performance of a student in the Saber 11 examination.
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <div class="row g-4">
+
+        <div class="col-lg-6">
+
+            <div class="card h-100 shadow border-start border-5 border-success">
+
+                <div class="card-body">
+
+                    <h2 class="text-success">
+
+                        <i class="bi bi-graph-up-arrow"></i>
+
+                        Linear Regression
+
+                    </h2>
+
+                    <p>
+
+                        Linear Regression is a predictive algorithm that
+                        estimates a result by identifying linear relationships
+                        between input variables and the target variable.
+
+                    </p>
+
+                    <h5>
+
+                        How It Works
+
+                    </h5>
+
+                    <p>
+
+                        The model analyzes how variables such as
+                        academic performance, family factors and
+                        socioeconomic characteristics influence
+                        the final Saber 11 score.
+
+                    </p>
+
+                    <h5>
+
+                        Advantages
+
+                    </h5>
+
+                    <ul>
+
+                        <li>Simple to implement.</li>
+
+                        <li>Fast prediction process.</li>
+
+                        <li>Easy interpretation of results.</li>
+
+                    </ul>
+
+                    <h5>
+
+                        Limitations
+
+                    </h5>
+
+                    <ul>
+
+                        <li>Assumes linear relationships.</li>
+
+                        <li>Less effective for complex patterns.</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="col-lg-6">
+
+            <div class="card h-100 shadow border-start border-5 border-danger">
+
+                <div class="card-body">
+
+                    <h2 class="text-danger">
+
+                        <i class="bi bi-diagram-3-fill"></i>
+
+                        Random Forest Regression
+
+                    </h2>
+
+                    <p>
+
+                        Random Forest is an ensemble learning algorithm
+                        that combines multiple decision trees to generate
+                        more accurate and robust predictions.
+
+                    </p>
+
+                    <h5>
+
+                        How It Works
+
+                    </h5>
+
+                    <p>
+
+                        Instead of relying on a single decision process,
+                        Random Forest creates multiple decision trees,
+                        each producing a prediction. The final result is
+                        generated from the combined output of all trees.
+
+                    </p>
+
+                    <h5>
+
+                        Advantages
+
+                    </h5>
+
+                    <ul>
+
+                        <li>High predictive accuracy.</li>
+
+                        <li>Excellent handling of complex relationships.</li>
+
+                        <li>Reduced risk of overfitting.</li>
+
+                    </ul>
+
+                    <h5>
+
+                        Limitations
+
+                    </h5>
+
+                    <ul>
+
+                        <li>More computational resources.</li>
+
+                        <li>Less interpretable than linear models.</li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mt-5 mb-4">
+
+        <div class="card-body p-4">
+
+            <h2 class="text-center text-primary mb-4">
+
+                How Machine Learning Works in This Project
+
+            </h2>
+
+            <div class="row text-center">
+
+                <div class="col-md-2">
+
+                    <div class="alert alert-primary">
+
+                        Academic Assessment
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="alert alert-success">
+
+                        Subject Questions
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="alert alert-warning">
+
+                        Socioeconomic Profile
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="alert alert-danger">
+
+                        Machine Learning
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="alert alert-info">
+
+                        Score Prediction
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-2">
+
+                    <div class="alert alert-dark text-white">
+
+                        Recommendations
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="card shadow mb-4">
+
+        <div class="card-body p-4">
+
+            <h2 class="text-primary">
+
+                Model Comparison
+
+            </h2>
+
+            <table class="table table-bordered table-striped mt-3">
+
+                <thead class="table-dark">
+
+                    <tr>
+
+                        <th>Metric</th>
+                        <th>Linear Regression</th>
+                        <th>Random Forest</th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    <tr>
+
+                        <td>R² Score</td>
+
+                        <td>
+                            Replace with your real value
+                        </td>
+
+                        <td>
+                            Replace with your real value
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>MAE</td>
+
+                        <td>
+                            Replace with your real value
+                        </td>
+
+                        <td>
+                            Replace with your real value
+                        </td>
+
+                    </tr>
+
+                    <tr>
+
+                        <td>RMSE</td>
+
+                        <td>
+                            Replace with your real value
+                        </td>
+
+                        <td>
+                            Replace with your real value
+                        </td>
+
+                    </tr>
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="alert alert-success shadow p-4">
+
+        <h2>
+
+            <i class="bi bi-award-fill"></i>
+
+            Selected Model
+
+        </h2>
+
+        <p class="mb-0">
+
+            Random Forest Regression was selected as the primary
+            prediction model because it achieved the best overall
+            performance during evaluation. The model demonstrated
+            greater predictive accuracy, lower error values and a
+            stronger ability to identify complex educational patterns
+            present in the dataset.
+
+        </p>
+
+    </div>
+
+</div>
+
+{% endblock %}
