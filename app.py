@@ -316,8 +316,11 @@ def learning():
 
         return redirect("/login")
 
+    metricas = obtener_metricas()
+
     return render_template(
-        "learning_models.html"
+        "learning_models.html",
+        metricas=metricas
     )
 
 @app.route("/home")
